@@ -1,46 +1,55 @@
 import { defineStore } from 'pinia';
-
-export interface SearchCriteria {
-  location: string;
-  checkIn: string;
-  checkOut: string;
-  guests: number;
-}
+import { LISTINGS, TOTAL_PROPERTY_COUNT, type PublicListing } from '~/mock/listings';
+import { emptyCriteria, toSearchQuery, type SearchCriteria } from '~/mock/search-criteria';
 
 interface HomeState {
-  search: SearchCriteria;
-  /** Total inventory count shown on the "Explore all properties (N)" CTA. */
+  criteria: SearchCriteria;
+  /** Amenity chips toggled under the hero search. */
+  quickFilters: string[];
+  topProperties: PublicListing[];
   totalProperties: number;
+  loading: boolean;
 }
 
 export const useHomeStore = defineStore('home', {
   state: (): HomeState => ({
-    search: { location: '', checkIn: '', checkOut: '', guests: 1 },
-    totalProperties: 0,
+    criteria: emptyCriteria(),
+    quickFilters: [],
+    topProperties: [],
+    totalProperties: TOTAL_PROPERTY_COUNT,
+    loading: false,
   }),
 
-  actions: {
-    setSearch(patch: Partial<SearchCriteria>) {
-      this.search = { ...this.search, ...patch };
-    },
-
-    /** Query params for `/search`, dropping the empty ones. */
-    searchQuery(): Record<string, string> {
-      const { location, checkIn, checkOut, guests } = this.search;
-      const query: Record<string, string> = { numberOfGuests: String(guests) };
-      if (location) query.location = location;
-      if (checkIn) query.checkIn = checkIn;
-      if (checkOut) query.checkOut = checkOut;
+  getters: {
+    searchQuery(state): Record<string, string> {
+      const query = toSearchQuery(state.criteria);
+      if (state.quickFilters.length) query.amenities = state.quickFilters.join(',');
       return query;
     },
+  },
 
-    setTotalProperties(total: number) {
-      this.totalProperties = total;
+  actions: {
+    async fetchTopProperties() {
+      this.loading = true;
+      try {
+        // The reference home shows 15 cards above the "explore all" CTA.
+        this.topProperties = LISTINGS.slice(0, 15);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    toggleQuickFilter(amenity: string) {
+      this.quickFilters = this.quickFilters.includes(amenity)
+        ? this.quickFilters.filter((a) => a !== amenity)
+        : [...this.quickFilters, amenity];
     },
 
     reset() {
-      this.search = { location: '', checkIn: '', checkOut: '', guests: 1 };
-      this.totalProperties = 0;
+      this.criteria = emptyCriteria();
+      this.quickFilters = [];
+      this.topProperties = [];
+      this.loading = false;
     },
   },
 });

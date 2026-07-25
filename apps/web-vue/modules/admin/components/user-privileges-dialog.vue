@@ -78,8 +78,8 @@ async function handleSave() {
             class="flex cursor-pointer items-center gap-3 rounded-md border border-gray-200 p-3 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <Checkbox
-              :checked="selected.includes(priv)"
-              @update:checked="togglePrivilege(priv)"
+              :model-value="selected.includes(priv)"
+              @update:model-value="togglePrivilege(priv)"
             />
             <span class="text-sm font-medium">{{ PRIVILEGE_LABELS[priv] ?? priv }}</span>
           </label>

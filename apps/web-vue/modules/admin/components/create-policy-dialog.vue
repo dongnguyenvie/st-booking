@@ -157,8 +157,8 @@ const tabs = [
             class="flex cursor-pointer items-center gap-3 rounded-md border border-gray-200 p-3 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <Checkbox
-              :checked="selectedScopes.includes(scope)"
-              @update:checked="toggleScope(scope)"
+              :model-value="selectedScopes.includes(scope)"
+              @update:model-value="toggleScope(scope)"
             />
             <span class="text-sm font-medium">{{ scope }}</span>
           </label>
@@ -174,8 +174,8 @@ const tabs = [
             class="flex cursor-pointer items-center gap-3 rounded-md border border-gray-200 p-3 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <Checkbox
-              :checked="selectedPermissions.includes(perm)"
-              @update:checked="togglePermission(perm)"
+              :model-value="selectedPermissions.includes(perm)"
+              @update:model-value="togglePermission(perm)"
             />
             <span class="text-sm font-medium">{{ perm }}</span>
           </label>

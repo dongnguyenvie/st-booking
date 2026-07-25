@@ -38,6 +38,11 @@ export default defineNuxtConfig({
     { path: '~/modules/reviews/components', prefix: 'Reviews' },
     { path: '~/modules/analytics/components', prefix: 'Analytics' },
     { path: '~/modules/home/components', prefix: 'Home' },
+    { path: '~/modules/all-listings/components', prefix: 'AllListings' },
+    { path: '~/modules/search/components', prefix: 'Search' },
+    { path: '~/modules/listing-detail/components', prefix: 'ListingDetail' },
+    { path: '~/modules/about-us/components', prefix: 'AboutUs' },
+    { path: '~/modules/contact-us/components', prefix: 'ContactUs' },
   ],
 
   imports: {

@@ -96,8 +96,8 @@ async function copyKey() {
                 class="flex cursor-pointer items-center gap-3 rounded-md border border-gray-200 p-2.5 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
               >
                 <Checkbox
-                  :checked="selectedPolicies.includes(policy.id)"
-                  @update:checked="togglePolicy(policy.id)"
+                  :model-value="selectedPolicies.includes(policy.id)"
+                  @update:model-value="togglePolicy(policy.id)"
                 />
                 <span class="text-sm">{{ policy.name }}</span>
               </label>

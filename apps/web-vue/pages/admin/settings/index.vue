@@ -46,7 +46,7 @@ const maintenanceMode = ref(false);
               <p class="font-medium">Email Notifications</p>
               <p class="text-sm text-gray-500">Receive system alerts via email</p>
             </div>
-            <Switch v-model:checked="emailNotifications" />
+            <Switch v-model="emailNotifications" />
           </div>
         </CardContent>
       </Card>
@@ -76,7 +76,7 @@ const maintenanceMode = ref(false);
               <p class="font-medium">Maintenance Mode</p>
               <p class="text-sm text-gray-500">Disable public access to the site</p>
             </div>
-            <Switch v-model:checked="maintenanceMode" />
+            <Switch v-model="maintenanceMode" />
           </div>
         </CardContent>
       </Card>

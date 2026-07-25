@@ -193,8 +193,8 @@ async function confirmDelete() {
                       />
                       <Checkbox
                         v-else
-                        :checked="roleHasPerm(role, perm.key)"
-                        @update:checked="toggle(role, perm.key)"
+                        :model-value="roleHasPerm(role, perm.key)"
+                        @update:model-value="toggle(role, perm.key)"
                       />
                     </div>
                   </td>
