@@ -1,0 +1,106 @@
+# Full dev deploy compose: build → push to Docker Hub → Portainer stack
+#
+# Usage:
+#   1. Copy .env.deploy.example to .env.deploy and fill in values
+#   2. Build:  docker compose -f docker-compose.full-dev-deploy.yaml --env-file .env.deploy build
+#   3. Push:   docker compose -f docker-compose.full-dev-deploy.yaml --env-file .env.deploy push
+#   4. Deploy: paste this file into Portainer Stack UI, set env vars there
+
+services:
+  # ── NestJS API ─────────────────────────────────────────────────────────────
+  api:
+    image: ${DOCKER_HUB_USERNAME}/carousel-marketplace-api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 7001
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      REDIS_DB: ${REDIS_DB:-0}
+      REDIS_QUEUE_DB: ${REDIS_QUEUE_DB:-2}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      ORIGIN_DOMAIN: ${ORIGIN_DOMAIN}
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
+      AUTH0_M2M_CLIENT_ID: ${AUTH0_M2M_CLIENT_ID}
+      AUTH0_M2M_CLIENT_SECRET: ${AUTH0_M2M_CLIENT_SECRET}
+    ports:
+      - "${API_PORT:-7001}:7001"
+    networks:
+      - carousel-marketplace-net
+
+  # ── Next.js Frontend ───────────────────────────────────────────────────────
+  frontend:
+    image: ${DOCKER_HUB_USERNAME}/carousel-marketplace-frontend:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_AUTH0_DOMAIN: ${NEXT_PUBLIC_AUTH0_DOMAIN}
+        NEXT_PUBLIC_AUTH0_CLIENT_ID: ${NEXT_PUBLIC_AUTH0_CLIENT_ID}
+        NEXT_PUBLIC_AUTH0_AUDIENCE: ${NEXT_PUBLIC_AUTH0_AUDIENCE}
+        NEXT_PUBLIC_USE_SSL: ${NEXT_PUBLIC_USE_SSL:-true}
+        NEXT_PUBLIC_API_ENDPOINT: ${NEXT_PUBLIC_API_ENDPOINT}
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    networks:
+      - carousel-marketplace-net
+
+  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-carousel-marketplace}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./system-docs/dump.sql:/docker-entrypoint-initdb.d/dump.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-carousel-marketplace}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - carousel-marketplace-net
+
+  # ── Redis ──────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: >
+      sh -c "redis-server ${REDIS_PASSWORD:+--requirepass $REDIS_PASSWORD}"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - carousel-marketplace-net
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  carousel-marketplace-net:
+    driver: bridge

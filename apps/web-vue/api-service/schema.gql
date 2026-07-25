@@ -1,0 +1,369 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccessPoliciesPaginatedOutput {
+  data: [AccessPolicy!]!
+  meta: MetaOutput!
+}
+
+type AccessPolicy {
+  _count: AccessPolicyCount!
+  apiKeys: [ApiKeyAccessPolicy!]
+  business: Business
+  businessId: String
+  createdAt: Date!
+  createdByUserId: String
+  description: String
+  id: ID!
+  name: String!
+  permissions: [String!]
+  scopes: [String!]
+  updatedAt: Date!
+  users: [User!]
+}
+
+type AccessPolicyCount {
+  apiKeys: Int!
+  users: Int!
+}
+
+type AccessPolicyDataOutput {
+  data: AccessPolicy!
+}
+
+type ApiKey {
+  _count: ApiKeyCount!
+  accessPolicies: [ApiKeyAccessPolicy!]
+  createdAt: Date!
+  createdByUser: User
+  createdByUserId: String
+  deletedAt: Date
+  id: ID!
+  key: String!
+  name: String!
+  updatedAt: Date!
+  user: User!
+  userId: String!
+}
+
+type ApiKeyAccessPolicy {
+  accessPolicy: AccessPolicy!
+  accessPolicyId: String!
+  apiKey: ApiKey!
+  apiKeyId: String!
+}
+
+type ApiKeyCount {
+  accessPolicies: Int!
+}
+
+type ApiKeyDataOutput {
+  data: ApiKeyOutput!
+}
+
+type ApiKeyOutput {
+  accessPolicyIds: [String!]!
+  createdAt: Date!
+  id: String!
+  key: String
+  name: String!
+  updatedAt: Date!
+  userId: String!
+}
+
+type ApiKeysPaginatedOutput {
+  data: [ApiKeyOutput!]!
+  meta: MetaOutput!
+}
+
+type Business {
+  _count: BusinessCount!
+  accessPolicies: [AccessPolicy!]
+  addressLine1: String
+  addressLine2: String
+  city: String
+  country: String
+  createdAt: Date!
+  defaultPaymentTerms: String
+  email: String
+  fax: String
+  id: ID!
+  invoiceFooterNote: String
+  legalName: String
+  name: String!
+  phone: String
+  postalCode: String
+  state: String
+  taxIdLabel: String
+  taxIdNumber: String
+  tradeName: String
+  updatedAt: Date!
+  users: [User!]
+  website: String
+}
+
+type BusinessCount {
+  accessPolicies: Int!
+  users: Int!
+}
+
+input CreateAccessPolicyInput {
+  businessId: String
+  description: String
+  name: String!
+  permissions: [String!]! = []
+  scopes: [String!]! = []
+}
+
+input CreateApiKeyInput {
+  accessPolicyIds: [String!]! = []
+  name: String!
+}
+
+"""Date scalar (ISO 8601 string ↔ Date object)"""
+scalar Date
+
+type GetAvailableScopesDataOutput {
+  data: GetAvailableScopesOutput!
+}
+
+input GetAvailableScopesInput {
+  includeGraphql: Boolean = true
+  includePermissions: Boolean = true
+  includeRest: Boolean = true
+}
+
+type GetAvailableScopesOutput {
+  graphql: [String!]
+  permissions: [String!]
+  rest: [String!]
+}
+
+type GetDashboardStatsDataOutput {
+  data: GetDashboardStatsOutput!
+}
+
+type GetDashboardStatsOutput {
+  activeUsers: Int!
+  totalAccessPolicies: Int!
+  totalUsers: Int!
+}
+
+type GetUsersOutput {
+  data: [User!]!
+  meta: MetaOutput!
+}
+
+type MetaOutput {
+  limit: Int!
+  page: Int!
+  total: Int!
+}
+
+type Mutation {
+  """Assign an access policy to a user"""
+  assignPolicyToUser(policyId: String!, userId: String!): AccessPolicyDataOutput!
+
+  """Create a new access policy"""
+  createAccessPolicy(input: CreateAccessPolicyInput!): AccessPolicyDataOutput!
+
+  """Create an API key for the current user"""
+  createApiKey(input: CreateApiKeyInput!): ApiKeyDataOutput!
+
+  """Delete (soft-delete) an API key"""
+  deleteApiKey(id: String!): ApiKeyDataOutput!
+  registerUser(input: RegisterUserInput!): RegisterUserDataOutput!
+
+  """Remove an access policy from a user"""
+  removePolicyFromUser(policyId: String!, userId: String!): AccessPolicyDataOutput!
+  resendTwoFactorEmail(input: ResendTwoFactorEmailInput!): ResendTwoFactorEmailOutput!
+  signIn(input: SignInInput!): SignInDataOutput!
+  signInByAuth0(input: SignInByAuth0Input!): SignInByAuth0DataOutput!
+  twoFactorDisable(input: TwoFactorDisableInput!): TwoFactorResultOutput!
+  twoFactorSetupInit(method: TwoFactorMethod!): TwoFactorSetupInitOutput!
+  twoFactorSetupVerify(input: TwoFactorSetupVerifyInput!): TwoFactorResultOutput!
+
+  """Update an access policy"""
+  updateAccessPolicy(id: String!, input: UpdateAccessPolicyInput!): AccessPolicyDataOutput!
+  updateUserPrivileges(input: UpdateUserPrivilegesInput!): UpdateUserPrivilegesDataOutput!
+  verifyTwoFactor(input: VerifyTwoFactorInput!): VerifyTwoFactorDataOutput!
+}
+
+input PaginationInput {
+  limit: Int! = 20
+  page: Int! = 1
+}
+
+type Query {
+  """List all access policies"""
+  getAccessPolicies(pagination: PaginationInput): AccessPoliciesPaginatedOutput!
+
+  """Get all available API scopes and permission flags"""
+  getAvailableScopes(input: GetAvailableScopesInput): GetAvailableScopesDataOutput!
+
+  """Get dashboard statistics"""
+  getDashboardStats: GetDashboardStatsDataOutput!
+
+  """Get my API keys"""
+  getMyApiKeys(pagination: PaginationInput): ApiKeysPaginatedOutput!
+
+  """Get access policies assigned to a user"""
+  getUserAccessPolicies(pagination: PaginationInput, userId: String!): AccessPoliciesPaginatedOutput!
+
+  """List all users"""
+  getUsers(pagination: PaginationInput): GetUsersOutput!
+
+  """GraphQL health check"""
+  gqlHealth: String!
+  me: User!
+}
+
+type RegisterUserDataOutput {
+  data: RegisterUserOutput!
+}
+
+input RegisterUserInput {
+  email: String!
+  name: String
+  password: String!
+}
+
+type RegisterUserOutput {
+  accessToken: String!
+  user: User!
+}
+
+input ResendTwoFactorEmailInput {
+  preAuthToken: String!
+}
+
+type ResendTwoFactorEmailOutput {
+  sent: Boolean!
+}
+
+type SignInByAuth0DataOutput {
+  data: SignInByAuth0Output!
+}
+
+input SignInByAuth0Input {
+  accessToken: String!
+}
+
+type SignInByAuth0Output {
+  accessToken: String!
+  user: User!
+}
+
+type SignInDataOutput {
+  data: SignInOutput!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+type SignInOutput {
+  accessToken: String
+  preAuthToken: String
+  twoFactorMethod: TwoFactorMethod
+  twoFactorRequired: Boolean!
+  user: User
+}
+
+type TwoFactorChallenge {
+  attempts: Int!
+  codeHash: String!
+  consumedAt: Date
+  createdAt: Date!
+  expiresAt: Date!
+  id: ID!
+  method: TwoFactorMethod!
+  user: User!
+  userId: String!
+}
+
+input TwoFactorDisableInput {
+  code: String
+  password: String!
+}
+
+"""Two-factor authentication method"""
+enum TwoFactorMethod {
+  EMAIL
+  TOTP
+}
+
+type TwoFactorResultOutput {
+  success: Boolean!
+}
+
+type TwoFactorSetupInitOutput {
+  challengeId: String
+  qrCodeDataUrl: String
+  secret: String
+}
+
+input TwoFactorSetupVerifyInput {
+  code: String!
+  method: TwoFactorMethod!
+}
+
+input UpdateAccessPolicyInput {
+  description: String
+  name: String
+  permissions: [String!]
+  scopes: [String!]
+}
+
+type UpdateUserPrivilegesDataOutput {
+  data: User!
+}
+
+input UpdateUserPrivilegesInput {
+  privileges: [Int!]!
+  userId: String!
+}
+
+type User {
+  _count: UserCount!
+  accessPolicies: [AccessPolicy!]
+  apiKeys: [ApiKey!]
+  business: Business
+  businessId: String
+  createdApiKeys: [ApiKey!]
+  createdAt: Date!
+  deletedAt: Date
+  email: String!
+  id: ID!
+  isActive: Boolean!
+  name: String
+  privileges: [Int!]
+  twoFactorChallenges: [TwoFactorChallenge!]
+  twoFactorEnabled: Boolean!
+  twoFactorEnabledAt: Date
+  twoFactorMethod: TwoFactorMethod
+  updatedAt: Date!
+}
+
+type UserCount {
+  accessPolicies: Int!
+  apiKeys: Int!
+  createdApiKeys: Int!
+  twoFactorChallenges: Int!
+}
+
+type VerifyTwoFactorDataOutput {
+  data: VerifyTwoFactorOutput!
+}
+
+input VerifyTwoFactorInput {
+  code: String!
+  preAuthToken: String!
+}
+
+type VerifyTwoFactorOutput {
+  accessToken: String!
+  user: User!
+}

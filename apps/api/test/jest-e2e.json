@@ -1,0 +1,14 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@generated-dto/(.*)$": "<rootDir>/../src/@generated-dto/$1",
+    "^@core/(.*)$": "<rootDir>/../src/modules/@core/$1",
+    "^@modules/(.*)$": "<rootDir>/../src/modules/$1"
+  }
+}

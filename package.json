@@ -1,0 +1,31 @@
+{
+  "name": "carousel-marketplace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "author": "dongnguyenvie",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "build:packages": "turbo run build --filter='./packages/*'",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "lint:names": "ls-lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "setup": "node scripts/setup.mjs"
+  },
+  "devDependencies": {
+    "@ls-lint/ls-lint": "^2.3.1",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "napi-postinstall": "^0.3.4",
+    "prettier": "^3.2.5",
+    "turbo": "^2.9.4"
+  },
+  "packageManager": "pnpm@8.15.5",
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,36 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+Date scalar (ISO 8601 string ↔ Date object)
+"""
+scalar Date
+
+type Mutation {
+  signInByAuth0(input: SignInByAuth0Input!): SignInByAuth0Output!
+}
+
+type Query {
+  """
+  GraphQL health check
+  """
+  gqlHealth: String!
+}
+
+input SignInByAuth0Input {
+  accessToken: String!
+}
+
+type SignInByAuth0Output {
+  accessToken: String!
+  user: UserAuthDto!
+}
+
+type UserAuthDto {
+  createdAt: Date!
+  email: String!
+  id: String!
+  name: String
+  role: String!
+}

@@ -1,0 +1,30 @@
+query Me {
+  me {
+    id
+    email
+    name
+    privileges
+    twoFactorEnabled
+    twoFactorMethod
+  }
+}
+
+mutation TwoFactorSetupInit($method: TwoFactorMethod!) {
+  twoFactorSetupInit(method: $method) {
+    secret
+    qrCodeDataUrl
+    challengeId
+  }
+}
+
+mutation TwoFactorSetupVerify($input: TwoFactorSetupVerifyInput!) {
+  twoFactorSetupVerify(input: $input) {
+    success
+  }
+}
+
+mutation TwoFactorDisable($input: TwoFactorDisableInput!) {
+  twoFactorDisable(input: $input) {
+    success
+  }
+}

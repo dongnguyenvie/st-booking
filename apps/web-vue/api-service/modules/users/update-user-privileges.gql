@@ -1,0 +1,8 @@
+mutation UpdateUserPrivileges($input: UpdateUserPrivilegesInput!) {
+  updateUserPrivileges(input: $input) {
+    data {
+      id
+      privileges
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# Nuxt dev/build outputs
+.output
+.nuxt
+.data
+.nitro
+.cache
+
+# Node
+node_modules
+
+# Logs
+logs
+*.log
+
+# Env
+.env
+.env.local
+
+# IDE
+.vscode
+.idea
+
+# Generated (do NOT ignore - schema is a contract, generated types must be committed for CI/CD)
+# api-service/generated/
+# api-service/schema.gql

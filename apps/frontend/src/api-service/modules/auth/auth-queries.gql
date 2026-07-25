@@ -1,0 +1,73 @@
+mutation SignIn($input: SignInInput!) {
+  signIn(input: $input) {
+    data {
+      accessToken
+      twoFactorRequired
+      preAuthToken
+      twoFactorMethod
+      user {
+        id
+        email
+        name
+        privileges
+      }
+    }
+  }
+}
+
+mutation VerifyTwoFactor($input: VerifyTwoFactorInput!) {
+  verifyTwoFactor(input: $input) {
+    data {
+      accessToken
+      user {
+        id
+        email
+        name
+        privileges
+      }
+    }
+  }
+}
+
+query MyAccess {
+  myAccess {
+    data {
+      roles
+      permissions
+    }
+  }
+}
+
+mutation ResendTwoFactorEmail($input: ResendTwoFactorEmailInput!) {
+  resendTwoFactorEmail(input: $input) {
+    sent
+  }
+}
+
+mutation SignInByAuth0($input: SignInByAuth0Input!) {
+  signInByAuth0(input: $input) {
+    data {
+      accessToken
+      user {
+        id
+        email
+        name
+        privileges
+      }
+    }
+  }
+}
+
+mutation RegisterUser($input: RegisterUserInput!) {
+  registerUser(input: $input) {
+    data {
+      accessToken
+      user {
+        id
+        email
+        name
+        privileges
+      }
+    }
+  }
+}

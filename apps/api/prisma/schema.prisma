@@ -1,0 +1,221 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/modules/@core/prisma/generated"
+}
+
+generator nestgraphql {
+  provider    = "node node_modules/prisma-nestjs-graphql"
+  output      = "../src/@generated-dto"
+  emitBlocks  = ["models"]
+  purgeOutput = true
+  reExport    = Single
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Core User model for auth. A User is *who someone is*, not what they act as —
+// it never holds deal state. Actor authority comes from Role (see UserRole);
+// `privileges` is now a bootstrap-only escape hatch carrying SUPER_ADMIN alone.
+model User {
+  id    String @id @default(uuid(7)) @db.Uuid
+  email String @unique
+  phone String? @map("phone")
+
+  /// @HideField({ output: true })
+  password   String?
+  name       String?
+  /// @HideField({ output: true })
+  auth0Id    String?   @unique @map("auth0_id")
+  // Reusable, User-level identity verification (KYC). Surfaced in the BPE Dossier later.
+  kycStatus  String?   @map("kyc_status")
+  // Numeric bootstrap flags. Only Privilege.SUPER_ADMIN is meaningful now; all
+  // marketplace authority is granted through Role.
+  privileges Int[]     @default([]) @map("privileges")
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  // 2FA fields — opt-in, all nullable
+  twoFactorEnabled   Boolean   @default(false) @map("two_factor_enabled")
+  /// @FieldType({ name: 'TwoFactorMethod', from: '@repo/core', output: true, input: true })
+  twoFactorMethod    String?   @map("two_factor_method")
+  /// @HideField({ output: true })
+  twoFactorSecret    String?   @map("two_factor_secret") // AES-256-GCM encrypted, base64
+  twoFactorEnabledAt DateTime? @map("two_factor_enabled_at")
+
+  businessId String?   @map("business_id") @db.Uuid
+  business   Business? @relation("business_users", fields: [businessId], references: [id])
+
+  userRoles           UserRole[]           @relation("user_roles")
+  apiKeys             ApiKey[]             @relation("user_api_keys")
+  createdApiKeys      ApiKey[]             @relation("api_key_created_by")
+  twoFactorChallenges TwoFactorChallenge[]
+
+  @@map("users")
+}
+
+model TwoFactorChallenge {
+  id       String @id @default(uuid(7)) @db.Uuid
+  userId   String @map("user_id") @db.Uuid
+  /// @FieldType({ name: 'TwoFactorMethod', from: '@repo/core', output: true, input: true })
+  method   String
+  codeHash String @map("code_hash")
+  attempts Int    @default(0)
+
+  expiresAt  DateTime  @map("expires_at")
+  consumedAt DateTime? @map("consumed_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("two_factor_challenges")
+}
+
+model Business {
+  id        String   @id @default(uuid(7)) @map("id") @db.Uuid
+  name      String   @map("name") @db.VarChar
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Company identity
+  legalName String? @map("legal_name") @db.VarChar
+  tradeName String? @map("trade_name") @db.VarChar
+
+  // Address
+  addressLine1 String? @map("address_line_1") @db.VarChar
+  addressLine2 String? @map("address_line_2") @db.VarChar
+  city         String? @map("city") @db.VarChar
+  state        String? @map("state") @db.VarChar
+  postalCode   String? @map("postal_code") @db.VarChar
+  country      String? @map("country") @db.VarChar
+
+  // Contact
+  phone   String? @map("phone") @db.VarChar
+  fax     String? @map("fax") @db.VarChar
+  email   String? @map("email") @db.VarChar
+  website String? @map("website") @db.VarChar
+
+  // Tax & IDs
+  taxIdLabel  String? @map("tax_id_label") @db.VarChar
+  taxIdNumber String? @map("tax_id_number") @db.VarChar
+
+  // Invoicing defaults
+  defaultPaymentTerms String? @map("default_payment_terms") @db.VarChar
+  invoiceFooterNote   String? @map("invoice_footer_note") @db.Text
+
+  roles Role[] @relation("business_roles")
+  users User[] @relation("business_users")
+
+  @@map("businesses")
+}
+
+model ApiKey {
+  id   String @id @default(uuid(7)) @map("id") @db.Uuid
+  key  String @unique @map("key") @db.VarChar
+  name String @map("name") @db.VarChar
+
+  // Ownership — userId: key belongs to this user; createdByUserId: who created it (admin may create on behalf)
+  userId          String  @map("user_id") @db.Uuid
+  createdByUserId String? @map("created_by") @db.Uuid
+
+  user          User  @relation("user_api_keys", fields: [userId], references: [id])
+  createdByUser User? @relation("api_key_created_by", fields: [createdByUserId], references: [id])
+
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp(6)
+
+  roles ApiKeyRole[]
+
+  @@map("api_keys")
+}
+
+model ApiKeyRole {
+  apiKeyId String @map("api_key_id") @db.Uuid
+  roleId   String @map("role_id") @db.Uuid
+
+  apiKey ApiKey @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([apiKeyId, roleId])
+  @@map("api_key_roles")
+}
+
+// A Role grants a fixed Permission set (RBAC). Seeded: borrower, lender_owner,
+// lender_operator, admin. lender_owner's set is a strict superset of lender_operator.
+model Role {
+  id          String  @id @default(uuid(7)) @map("id") @db.Uuid
+  name        String  @unique @map("name") @db.VarChar
+  description String? @map("description") @db.VarChar
+
+  /// Role granted to new self-signups. Exactly one role should carry this —
+  /// enforced in RoleService.setDefault (a transaction that clears the rest),
+  /// since Prisma cannot express a partial unique index.
+  isDefault Boolean @default(false) @map("is_default")
+
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]       @relation("user_roles")
+  apiKeys         ApiKeyRole[]
+
+  businessId String?   @map("business_id") @db.Uuid
+  business   Business? @relation("business_roles", fields: [businessId], references: [id])
+
+  /// @HideField({ input: true, output: true })
+  deletedAt       DateTime? @map("deleted_at") @db.Timestamp(6)
+  /// @HideField({ input: true, output: true })
+  deletedByUserId String?   @map("deleted_by") @db.Uuid
+  createdByUserId String?   @map("created_by") @db.Uuid
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("roles")
+}
+
+// A single grantable action in `resource:verb` form (e.g. request:create,
+// offer:post, stip:approve). Handlers check a Permission; the Role supplies the set.
+model Permission {
+  id          String  @id @default(uuid(7)) @map("id") @db.Uuid
+  key         String  @unique @map("key") @db.VarChar // "request:create"
+  resource    String  @map("resource") @db.VarChar // "request"
+  action      String  @map("action") @db.VarChar // "create"
+  description String? @map("description") @db.VarChar
+
+  rolePermissions RolePermission[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+// Assigns a Role to a User. lenderWorkspaceId is reserved for the Lender Workspace
+// ticket (a lender role is scoped to one workspace); nullable / deferred for now.
+model UserRole {
+  userId String @map("user_id") @db.Uuid
+  roleId String @map("role_id") @db.Uuid
+
+  lenderWorkspaceId String? @map("lender_workspace_id") @db.Uuid
+
+  user User @relation("user_roles", fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation("user_roles", fields: [roleId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}

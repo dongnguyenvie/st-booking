@@ -1,0 +1,75 @@
+ls:
+  apps/api/src:
+    .dir: kebab-case | regex:^@[a-z][a-z0-9-]*$
+    .ts: kebab-case
+    .module.ts: kebab-case
+    .service.ts: kebab-case
+    .controller.ts: kebab-case
+    .resolver.ts: kebab-case
+    .guard.ts: kebab-case
+    .decorator.ts: kebab-case
+    .interceptor.ts: kebab-case
+    .filter.ts: kebab-case
+    .pipe.ts: kebab-case
+    .strategy.ts: kebab-case
+    .dto.ts: kebab-case
+    .enum.ts: kebab-case
+    .input.ts: kebab-case
+    .model.ts: kebab-case
+    .output.ts: kebab-case
+
+  apps/frontend/src:
+    .dir: kebab-case
+    .ts: kebab-case
+    .tsx: kebab-case
+    .css: kebab-case
+    .gql: kebab-case
+
+  apps/frontend/app:
+    # Route groups (auth) and dynamic segments [offerId] / [...slug] are Next.js
+    # syntax, not naming choices, so they sit outside the kebab-case rule.
+    .dir: kebab-case | regex:^\(.*\)$ | regex:^\[.*\]$
+    .ts: kebab-case
+    .tsx: kebab-case
+    .css: kebab-case
+
+  apps/specs/src:
+    .dir: kebab-case
+    .ts: kebab-case
+    .tsx: kebab-case
+    .css: kebab-case
+
+  apps/storybook/src:
+    .dir: kebab-case
+    .tsx: kebab-case
+
+  apps/specs/specs:
+    .dir: kebab-case
+    .md: kebab-case | regex:^_index$
+
+  packages/core/src:
+    .dir: kebab-case
+    .ts: kebab-case
+
+  packages/ui/src:
+    .dir: kebab-case
+    .ts: kebab-case
+    .tsx: kebab-case
+
+  packages/email/src:
+    .dir: kebab-case
+    .ts: kebab-case
+    .tsx: kebab-case
+
+ignore:
+  - node_modules
+  - dist
+  - .next
+  - .turbo
+  - .claude
+  - .opencode
+  - .git
+  - system-docs
+  - apps/api/src/@generated-dto
+  - apps/frontend/src/api-service/generated
+  - apps/api/prisma/migrations

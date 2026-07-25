@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+.next
+.turbo
+
+# Generated files
+apps/api/src/@generated-dto
+apps/frontend/src/api-service/generated
+apps/frontend/src/api-service/schema.gql
+apps/api/schema.gql
+
+# Prisma migrations (auto-generated SQL)
+apps/api/prisma/migrations
+
+# Lock files
+pnpm-lock.yaml
+
+# System docs / dumps
+system-docs

@@ -1,0 +1,9 @@
+query GetDashboardStats {
+  getDashboardStats {
+    data {
+      totalUsers
+      activeUsers
+      totalAccessPolicies
+    }
+  }
+}

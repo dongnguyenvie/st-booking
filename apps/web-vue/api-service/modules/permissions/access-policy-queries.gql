@@ -1,0 +1,85 @@
+query GetAvailableScopes($input: GetAvailableScopesInput) {
+  getAvailableScopes(input: $input) {
+    data {
+      graphql
+      rest
+      permissions
+    }
+  }
+}
+
+query GetAccessPolicies($pagination: PaginationInput) {
+  getAccessPolicies(pagination: $pagination) {
+    data {
+      id
+      name
+      description
+      permissions
+      scopes
+      businessId
+      createdAt
+    }
+    meta {
+      total
+      page
+      limit
+    }
+  }
+}
+
+query GetUserAccessPolicies($userId: String!, $pagination: PaginationInput) {
+  getUserAccessPolicies(userId: $userId, pagination: $pagination) {
+    data {
+      id
+      name
+      description
+      permissions
+      scopes
+    }
+    meta {
+      total
+      page
+      limit
+    }
+  }
+}
+
+mutation CreateAccessPolicy($input: CreateAccessPolicyInput!) {
+  createAccessPolicy(input: $input) {
+    data {
+      id
+      name
+      description
+      permissions
+      scopes
+    }
+  }
+}
+
+mutation UpdateAccessPolicy($id: String!, $input: UpdateAccessPolicyInput!) {
+  updateAccessPolicy(id: $id, input: $input) {
+    data {
+      id
+      name
+      description
+      permissions
+      scopes
+    }
+  }
+}
+
+mutation AssignPolicyToUser($userId: String!, $policyId: String!) {
+  assignPolicyToUser(userId: $userId, policyId: $policyId) {
+    data {
+      id
+    }
+  }
+}
+
+mutation RemovePolicyFromUser($userId: String!, $policyId: String!) {
+  removePolicyFromUser(userId: $userId, policyId: $policyId) {
+    data {
+      id
+    }
+  }
+}

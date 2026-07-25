@@ -1,0 +1,34 @@
+query GetMyApiKeys($pagination: PaginationInput) {
+  getMyApiKeys(pagination: $pagination) {
+    data {
+      id
+      name
+      accessPolicyIds
+      userId
+      createdAt
+    }
+    meta {
+      total
+      page
+      limit
+    }
+  }
+}
+
+mutation CreateApiKey($input: CreateApiKeyInput!) {
+  createApiKey(input: $input) {
+    data {
+      id
+      name
+      key
+    }
+  }
+}
+
+mutation DeleteApiKey($id: String!) {
+  deleteApiKey(id: $id) {
+    data {
+      id
+    }
+  }
+}

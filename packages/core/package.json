@@ -1,0 +1,26 @@
+{
+  "name": "@repo/core",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b -v",
+    "dev": "tsc -b --watch",
+    "lint": "eslint \"src/**/*.ts\""
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "dayjs": "^1.11.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "5.5.4"
+  }
+}
