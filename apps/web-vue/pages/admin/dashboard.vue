@@ -45,8 +45,8 @@ const stats = computed(() => data.value?.getDashboardStats?.data ?? null);
           :trend-up="true"
         />
         <AdminStatsCard
-          title="Total Policies"
-          :value="String(stats?.totalAccessPolicies ?? 0)"
+          title="Total Roles"
+          :value="String(stats?.totalRoles ?? 0)"
           icon="i-lucide-shield-check"
         />
       </template>

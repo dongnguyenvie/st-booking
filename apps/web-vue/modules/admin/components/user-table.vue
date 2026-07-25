@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Loader2, MoreHorizontal, Shield, FileText } from 'lucide-vue-next';
+import { Loader2, MoreHorizontal, Shield, UsersRound } from 'lucide-vue-next';
 import { useQuery } from 'villus';
 import { GetUsersDocument } from '~/api-service/generated/graphql';
 import { PRIVILEGE_LABELS } from '@repo/core';
 
 interface User {
   id: string;
-  name: string | null;
+  name?: string | null;
   email: string;
   isActive: boolean;
-  privileges: number[] | null;
+  privileges?: number[] | null;
   createdAt: string;
 }
 
@@ -24,7 +24,7 @@ const { data, isFetching } = useQuery({ query: GetUsersDocument });
 const users = computed<User[]>(() => data.value?.getUsers?.data ?? []);
 
 const privilegesDialogOpen = ref(false);
-const policiesDialogOpen = ref(false);
+const rolesDialogOpen = ref(false);
 const selectedUser = ref<DialogUser | null>(null);
 
 function toDialogUser(user: User): DialogUser {
@@ -41,9 +41,9 @@ function openPrivilegesDialog(user: User) {
   privilegesDialogOpen.value = true;
 }
 
-function openPoliciesDialog(user: User) {
+function openRolesDialog(user: User) {
   selectedUser.value = toDialogUser(user);
-  policiesDialogOpen.value = true;
+  rolesDialogOpen.value = true;
 }
 
 function formatDate(val: string) {
@@ -98,13 +98,13 @@ function formatDate(val: string) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem @click="openRolesDialog(user)">
+                    <UsersRound class="mr-2 size-4" />
+                    Manage Roles
+                  </DropdownMenuItem>
                   <DropdownMenuItem @click="openPrivilegesDialog(user)">
                     <Shield class="mr-2 size-4" />
                     Edit Privileges
-                  </DropdownMenuItem>
-                  <DropdownMenuItem @click="openPoliciesDialog(user)">
-                    <FileText class="mr-2 size-4" />
-                    Manage Policies
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -120,8 +120,8 @@ function formatDate(val: string) {
         :user="selectedUser"
         @saved="() => {}"
       />
-      <AdminUserPoliciesDialog
-        v-model:open="policiesDialogOpen"
+      <AdminUserRolesDialog
+        v-model:open="rolesDialogOpen"
         :user="selectedUser"
       />
     </ClientOnly>

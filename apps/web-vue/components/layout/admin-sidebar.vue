@@ -15,7 +15,7 @@ const mainNav = [
   { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.admin.dashboard },
   { label: 'Users', icon: Users, to: ROUTES.admin.users },
   { label: 'Products', icon: Package, to: ROUTES.admin.products },
-  { label: 'Permissions', icon: Shield, to: ROUTES.admin.permissions },
+  { label: 'Roles & Permissions', icon: Shield, to: ROUTES.admin.permissions },
   { label: 'API Keys', icon: Key, to: ROUTES.admin.apiKeys },
   { label: 'Analytics', icon: BarChart3, to: ROUTES.admin.analytics },
   { label: 'Reports', icon: FileBarChart, to: ROUTES.admin.reports },

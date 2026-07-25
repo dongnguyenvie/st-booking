@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AlertCircle } from 'lucide-vue-next';
 import { useMutation } from 'villus';
+import { Privilege, PRIVILEGE_LABELS } from '@repo/core';
 import { UpdateUserPrivilegesDocument } from '~/api-service/generated/graphql';
 
 const props = defineProps<{
@@ -13,19 +14,21 @@ const emit = defineEmits<{
   saved: [];
 }>();
 
-const ALL_PRIVILEGES = ['SUPER_ADMIN', 'ADMIN', 'POS_MANAGER', 'POS_USER'] as const;
+// Ordinary authority now lives in Role. The only remaining privilege flag is the
+// SUPER_ADMIN break-glass bit (see @repo/core Privilege enum).
+const ALL_PRIVILEGES = [Privilege.SUPER_ADMIN] as const;
 
-const selected = ref<string[]>([]);
+const selected = ref<number[]>([]);
 const saving = ref(false);
 const error = ref('');
 
 watch(() => props.user, (u) => {
-  selected.value = u ? [...u.privileges] : [];
+  selected.value = u ? u.privileges.map(Number) : [];
 }, { immediate: true });
 
 const { execute } = useMutation(UpdateUserPrivilegesDocument);
 
-function togglePrivilege(priv: string) {
+function togglePrivilege(priv: number) {
   if (selected.value.includes(priv)) {
     selected.value = selected.value.filter((p) => p !== priv);
   } else {
@@ -78,9 +81,12 @@ async function handleSave() {
               :checked="selected.includes(priv)"
               @update:checked="togglePrivilege(priv)"
             />
-            <span class="text-sm font-medium">{{ priv }}</span>
+            <span class="text-sm font-medium">{{ PRIVILEGE_LABELS[priv] ?? priv }}</span>
           </label>
         </div>
+        <p class="text-xs text-gray-400">
+          Privileges are break-glass flags. Grant everyday access through Roles instead.
+        </p>
 
         <Alert v-if="error" variant="destructive">
           <AlertCircle class="size-4" />

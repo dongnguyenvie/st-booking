@@ -47,9 +47,7 @@ export const useAuthStore = defineStore('auth', {
 
     isAdmin: (state): boolean => {
       const p = state.user?.privileges ?? [];
-      return (
-        p.includes(Privilege.SUPER_ADMIN) || p.includes(Privilege.ADMIN) || p.includes(Privilege.POS_MANAGER)
-      );
+      return p.includes(Privilege.SUPER_ADMIN);
     },
 
     /** Dashboard route for the currently active privilege */

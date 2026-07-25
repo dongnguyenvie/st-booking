@@ -3,7 +3,7 @@ query GetDashboardStats {
     data {
       totalUsers
       activeUsers
-      totalAccessPolicies
+      totalRoles
     }
   }
 }

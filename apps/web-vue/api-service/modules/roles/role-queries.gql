@@ -1,0 +1,162 @@
+query GetRoles($pagination: PaginationInput) {
+  getRoles(pagination: $pagination) {
+    data {
+      id
+      name
+      description
+      isDefault
+      createdAt
+      updatedAt
+      rolePermissions {
+        permission {
+          id
+          key
+          resource
+          action
+          description
+        }
+      }
+    }
+    meta {
+      total
+      page
+      limit
+    }
+  }
+}
+
+query GetRole($id: String!) {
+  getRole(id: $id) {
+    data {
+      id
+      name
+      description
+      isDefault
+      createdAt
+      updatedAt
+      rolePermissions {
+        permission {
+          id
+          key
+          resource
+          action
+          description
+        }
+      }
+    }
+  }
+}
+
+query GetPermissions($pagination: PaginationInput) {
+  getPermissions(pagination: $pagination) {
+    data {
+      id
+      key
+      resource
+      action
+      description
+    }
+    meta {
+      total
+      page
+      limit
+    }
+  }
+}
+
+query GetUserRoles($userId: String!, $pagination: PaginationInput) {
+  getUserRoles(userId: $userId, pagination: $pagination) {
+    data {
+      id
+      name
+      description
+      isDefault
+      rolePermissions {
+        permission {
+          key
+        }
+      }
+    }
+    meta {
+      total
+      page
+      limit
+    }
+  }
+}
+
+mutation CreateRole($input: CreateRoleInput!) {
+  createRole(input: $input) {
+    data {
+      id
+      name
+      description
+      isDefault
+      rolePermissions {
+        permission {
+          key
+        }
+      }
+    }
+  }
+}
+
+mutation UpdateRole($id: String!, $input: UpdateRoleInput!) {
+  updateRole(id: $id, input: $input) {
+    data {
+      id
+      name
+      description
+    }
+  }
+}
+
+mutation DeleteRole($id: String!) {
+  deleteRole(id: $id) {
+    data {
+      id
+    }
+  }
+}
+
+mutation SetRolePermissions($input: SetRolePermissionsInput!) {
+  setRolePermissions(input: $input) {
+    data {
+      id
+      name
+      rolePermissions {
+        permission {
+          key
+        }
+      }
+    }
+  }
+}
+
+mutation SetDefaultRole($id: String!) {
+  setDefaultRole(id: $id) {
+    data {
+      id
+      name
+      isDefault
+    }
+  }
+}
+
+mutation AssignRoleToUser($userId: String!, $roleId: String!) {
+  assignRoleToUser(userId: $userId, roleId: $roleId) {
+    data {
+      id
+      name
+    }
+  }
+}
+
+mutation RemoveRoleFromUser($userId: String!, $roleId: String!) {
+  removeRoleFromUser(userId: $userId, roleId: $roleId) {
+    data {
+      id
+      name
+    }
+  }
+}

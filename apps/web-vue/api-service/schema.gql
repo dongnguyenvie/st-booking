@@ -146,7 +146,7 @@ type GetDashboardStatsDataOutput {
 
 type GetDashboardStatsOutput {
   activeUsers: Int!
-  totalAccessPolicies: Int!
+  totalRoles: Int!
   totalUsers: Int!
 }
 
@@ -187,12 +187,105 @@ type Mutation {
   """Update an access policy"""
   updateAccessPolicy(id: String!, input: UpdateAccessPolicyInput!): AccessPolicyDataOutput!
   updateUserPrivileges(input: UpdateUserPrivilegesInput!): UpdateUserPrivilegesDataOutput!
+
+  """Create a new role"""
+  createRole(input: CreateRoleInput!): RoleDataOutput!
+
+  """Update a role"""
+  updateRole(id: String!, input: UpdateRoleInput!): RoleDataOutput!
+
+  """Soft-delete a role"""
+  deleteRole(id: String!): RoleDataOutput!
+
+  """Replace the full permission set of a role"""
+  setRolePermissions(input: SetRolePermissionsInput!): RoleDataOutput!
+
+  """Mark a role as the default granted to new self-signups"""
+  setDefaultRole(id: String!): RoleDataOutput!
+
+  """Assign a role to a user"""
+  assignRoleToUser(userId: String!, roleId: String!): RoleDataOutput!
+
+  """Remove a role from a user"""
+  removeRoleFromUser(userId: String!, roleId: String!): RoleDataOutput!
   verifyTwoFactor(input: VerifyTwoFactorInput!): VerifyTwoFactorDataOutput!
 }
 
 input PaginationInput {
   limit: Int! = 20
   page: Int! = 1
+}
+
+# ------------------------------------------------------
+# RBAC: Roles & Permissions (added to match apps/api role module)
+# ------------------------------------------------------
+
+type Permission {
+  action: String!
+  createdAt: Date!
+  description: String
+  id: ID!
+  key: String!
+  resource: String!
+  updatedAt: Date!
+}
+
+type RolePermission {
+  permission: Permission!
+  permissionId: String!
+  roleId: String!
+}
+
+type Role {
+  businessId: String
+  createdAt: Date!
+  createdByUserId: String
+  description: String
+  id: ID!
+  isDefault: Boolean!
+  name: String!
+  rolePermissions: [RolePermission!]
+  updatedAt: Date!
+}
+
+type RoleDataOutput {
+  data: Role!
+}
+
+type RolesPaginatedOutput {
+  data: [Role!]!
+  meta: MetaOutput!
+}
+
+type PermissionsPaginatedOutput {
+  data: [Permission!]!
+  meta: MetaOutput!
+}
+
+type MyAccessOutput {
+  permissions: [String!]!
+  roles: [String!]!
+}
+
+type MyAccessDataOutput {
+  data: MyAccessOutput!
+}
+
+input CreateRoleInput {
+  businessId: String
+  description: String
+  name: String!
+  permissionKeys: [String!]! = []
+}
+
+input UpdateRoleInput {
+  description: String
+  name: String
+}
+
+input SetRolePermissionsInput {
+  permissionKeys: [String!]!
+  roleId: String!
 }
 
 type Query {
@@ -217,6 +310,21 @@ type Query {
   """GraphQL health check"""
   gqlHealth: String!
   me: User!
+
+  """Roles and permission keys resolved for the current user"""
+  myAccess: MyAccessDataOutput!
+
+  """List all roles"""
+  getRoles(pagination: PaginationInput): RolesPaginatedOutput!
+
+  """Get a single role by id"""
+  getRole(id: String!): RoleDataOutput!
+
+  """List the permission catalog"""
+  getPermissions(pagination: PaginationInput): PermissionsPaginatedOutput!
+
+  """List roles assigned to a user"""
+  getUserRoles(userId: String!, pagination: PaginationInput): RolesPaginatedOutput!
 }
 
 type RegisterUserDataOutput {
