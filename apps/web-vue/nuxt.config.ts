@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  // SPA mode — admin/POS app doesn't need SSR (no SEO, all auth-gated)
+  // SPA mode — the back office does not need SSR (no SEO, all auth-gated)
   ssr: false,
 
   vite: {
@@ -31,13 +31,16 @@ export default defineNuxtConfig({
   components: [
     { path: '~/components' },
     { path: '~/modules/auth/components', prefix: 'Auth' },
-    { path: '~/modules/cashier/components', prefix: 'Cashier' },
     { path: '~/modules/admin/components', prefix: 'Admin' },
     { path: '~/modules/security/components', prefix: 'Security' },
+    { path: '~/modules/listings/components', prefix: 'Listings' },
+    { path: '~/modules/reservations/components', prefix: 'Reservations' },
+    { path: '~/modules/reviews/components', prefix: 'Reviews' },
+    { path: '~/modules/analytics/components', prefix: 'Analytics' },
   ],
 
   imports: {
-    dirs: ['composables', 'modules/*/composables', 'modules/*/stores'],
+    dirs: ['composables', 'modules/*/composables', 'stores/*'],
   },
 
   runtimeConfig: {
@@ -47,7 +50,7 @@ export default defineNuxtConfig({
       auth0Domain: '', // NUXT_PUBLIC_AUTH0_DOMAIN
       auth0ClientId: '', // NUXT_PUBLIC_AUTH0_CLIENT_ID
       auth0Audience: '', // NUXT_PUBLIC_AUTH0_AUDIENCE
-      appName: 'Innoland',
+      appName: 'Canmore Stays',
     },
   },
 

@@ -7,7 +7,7 @@ export const PRIVILEGE_LABELS: Record<number, string> = {
 
 /**
  * Descending priority order for privilege resolution: highest tier wins.
- * Only SUPER_ADMIN remains — marketplace authority now lives in Role.
+ * Only SUPER_ADMIN remains — booking authority now lives in Role.
  */
 export const PRIVILEGE_PRIORITY = [Privilege.SUPER_ADMIN] as const;
 

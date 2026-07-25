@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { authenticator } from 'otplib';
 import * as qrcode from 'qrcode';
 
-const ISSUER = 'Carousel Marketplace';
+const ISSUER = 'Canmore Stays';
 
 @Injectable()
 export class TotpHelper {

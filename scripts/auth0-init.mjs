@@ -139,7 +139,7 @@ async function main() {
   const domain = env.AUTH0_DOMAIN;
   const m2mId = env.AUTH0_M2M_CLIENT_ID;
   const m2mSecret = env.AUTH0_M2M_CLIENT_SECRET;
-  const audience = env.AUTH0_AUDIENCE || 'https://api.carousel-marketplace.com';
+  const audience = env.AUTH0_AUDIENCE || 'https://api.canmorestays.com';
   const originDomain = env.ORIGIN_DOMAIN || 'http://localhost:3000';
 
   if (!domain || !m2mId || !m2mSecret) {
@@ -202,10 +202,10 @@ async function main() {
       scopes: [
         { value: 'admin:read', description: 'Read admin resources' },
         { value: 'admin:write', description: 'Write admin resources' },
-        { value: 'pos:read', description: 'Read POS resources' },
-        { value: 'pos:write', description: 'Write POS resources' },
-        { value: 'pos:refund', description: 'Process refunds' },
-        { value: 'pos:report', description: 'Access POS reports' },
+        { value: 'listing:read', description: 'Read listings' },
+        { value: 'listing:write', description: 'Create and edit listings' },
+        { value: 'reservation:read', description: 'Read reservations' },
+        { value: 'reservation:write', description: 'Create and manage reservations' },
       ],
     });
     if (!ok) err(`Failed to create API: ${JSON.stringify(data)}`);

@@ -13,7 +13,7 @@ export class UserRole {
     roleId!: string;
 
     @Field(() => String, {nullable:true})
-    lenderWorkspaceId!: string | null;
+    hostWorkspaceId!: string | null;
 
     @Field(() => Date, {nullable:false})
     createdAt!: Date;

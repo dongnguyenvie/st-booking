@@ -3,17 +3,12 @@
  * Prevents magic strings across the app.
  */
 export const ROUTES = {
-  pos: {
-    dashboard: '/pos/dashboard',
-    orders: '/pos/orders',
-    checkout: '/pos/checkout',
-    register: '/pos/register',
-  },
   admin: {
     dashboard: '/admin/dashboard',
     users: '/admin/users',
-    products: '/admin/products',
-    reports: '/admin/reports',
+    listings: '/admin/listings',
+    reservations: '/admin/reservations',
+    reviews: '/admin/reviews',
     settings: '/admin/settings',
     security: '/admin/settings/security',
     permissions: '/admin/permissions',
@@ -21,9 +16,10 @@ export const ROUTES = {
     analytics: '/admin/analytics',
   },
   auth: {
-    login: '/pos/login',
-    verify: '/pos/login/verify',
-    callback: '/pos/callback',
+    login: '/auth/login',
+    verify: '/auth/login/verify',
+    callback: '/auth/callback',
+    register: '/auth/register',
   },
 } as const;
 
@@ -32,8 +28,7 @@ export const PUBLIC_ROUTES = [
   ROUTES.auth.login,
   ROUTES.auth.verify,
   ROUTES.auth.callback,
-  ROUTES.pos.register,
+  ROUTES.auth.register,
 ] as const;
 
-/** Routes requiring POS_MANAGER privilege */
 export const ADMIN_ROUTES_PREFIX = '/admin';

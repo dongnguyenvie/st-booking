@@ -11,24 +11,24 @@
  * changing its string value is a migration.
  */
 export enum PermissionKey {
-  // Borrower — request lifecycle
-  REQUEST_CREATE = 'request:create',
-  REQUEST_READ = 'request:read',
-  REQUEST_CANCEL = 'request:cancel',
-  OFFER_READ = 'offer:read',
-  LOI_SIGN = 'loi:sign',
-  LOI_CANCEL = 'loi:cancel',
+  // Guest — reservation lifecycle
+  RESERVATION_CREATE = 'reservation:create',
+  RESERVATION_READ = 'reservation:read',
+  RESERVATION_CANCEL = 'reservation:cancel',
+  REVIEW_CREATE = 'review:create',
+  REVIEW_READ = 'review:read',
 
-  // Lender desk — pricing & funding
-  REQUEST_UNLOCK = 'request:unlock',
-  OFFER_POST = 'offer:post',
-  OFFER_REVISE = 'offer:revise',
-  STIP_REQUEST = 'stip:request',
-  STIP_REVIEW = 'stip:review',
-  STIP_APPROVE = 'stip:approve',
-  FUNDING_CONFIRM = 'funding:confirm',
+  // Host desk — inventory & stay operations
+  LISTING_READ = 'listing:read',
+  LISTING_CREATE = 'listing:create',
+  LISTING_UPDATE = 'listing:update',
+  LISTING_PUBLISH = 'listing:publish',
+  AVAILABILITY_MANAGE = 'availability:manage',
+  PRICING_MANAGE = 'pricing:manage',
+  RESERVATION_CONFIRM = 'reservation:confirm',
+  REVIEW_RESPOND = 'review:respond',
 
-  // Lender owner — org management
+  // Host owner — org management
   MEMBER_MANAGE = 'member:manage',
   BILLING_READ = 'billing:read',
   BILLING_MANAGE = 'billing:manage',
@@ -39,6 +39,7 @@ export enum PermissionKey {
   ROLE_READ = 'role:read',
   ROLE_MANAGE = 'role:manage',
   PERMISSION_READ = 'permission:read',
-  LENDER_ONBOARD = 'lender:onboard',
-  WORKSPACE_VERIFY = 'workspace:verify',
+  HOST_ONBOARD = 'host:onboard',
+  LISTING_VERIFY = 'listing:verify',
+  CONTENT_MANAGE = 'content:manage',
 }

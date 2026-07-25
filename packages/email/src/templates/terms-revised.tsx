@@ -76,6 +76,6 @@ TermsRevisedEmail.PreviewProps = {
   previous: { amount: 48000, apr: 6.91, termMonths: 24, payment: 2144 },
   revised: { amount: 48000, apr: 7.4, termMonths: 24, payment: 2156.31 },
   reissuedDocuments: ['Letter of intent', 'Loan agreement'],
-  reviewUrl: 'https://app.carousel-marketplace.dev/marketplace/borrower/funding-room',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  reviewUrl: 'https://app.canmorestays.dev/marketplace/borrower/funding-room',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies TermsRevisedProps;

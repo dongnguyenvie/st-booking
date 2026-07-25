@@ -8,7 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
  * token is present.
  *
  * Use on public reads that personalise for a signed-in caller without requiring
- * auth — e.g. the market board can show which lenders a borrower has already
+ * auth — e.g. the search results can show which listings a guest has already
  * dealt with, while still rendering for an anonymous visitor.
  */
 @Injectable()

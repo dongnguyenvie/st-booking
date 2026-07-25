@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 
 const SEED_USERS = [
   {
-    email: 'admin@carousel-marketplace.dev',
+    email: 'admin@canmorestays.dev',
     password: 'Admin@2026!Secure',
     name: 'Admin',
     // SUPER_ADMIN is the only meaningful privilege — a break-glass bypass.
@@ -15,18 +15,18 @@ const SEED_USERS = [
     roles: [RoleName.ADMIN],
   },
   {
-    email: 'lender@carousel-marketplace.dev',
-    password: 'Lender@2026!Secure',
-    name: 'Lender Desk',
+    email: 'host@canmorestays.dev',
+    password: 'Host@2026!Secure',
+    name: 'Host Desk',
     privileges: [],
-    roles: [RoleName.LENDER_OWNER],
+    roles: [RoleName.HOST_OWNER],
   },
   {
-    email: 'borrower@carousel-marketplace.dev',
-    password: 'Borrower@2026!Secure',
+    email: 'guest@canmorestays.dev',
+    password: 'Guest@2026!Secure',
     name: 'Avery Singh',
     privileges: [],
-    roles: [RoleName.BORROWER],
+    roles: [RoleName.GUEST],
   },
 ];
 
@@ -90,9 +90,9 @@ export class SeedService implements OnApplicationBootstrap {
   /** Upsert the four roles and (re)wire their permission sets. */
   private async seedRoles() {
     for (const name of Object.values(RoleName)) {
-      // Borrower is the self-signup role (glossary: lenders are Admin-onboarded,
+      // Guest is the self-signup role (glossary: hosts are Admin-onboarded,
       // never self-registered). An admin can move this flag from the dashboard.
-      const isDefault = name === RoleName.BORROWER;
+      const isDefault = name === RoleName.GUEST;
       const role = await this.prisma.role.upsert({
         where: { name },
         update: { description: ROLE_DESCRIPTIONS[name], isDefault },

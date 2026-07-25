@@ -48,9 +48,3 @@ without visiting the live site again.
 | Maps | Leaflet + OpenStreetMap tiles |
 | Analytics | GA4 (2 streams), Google Tag Manager, Osano CMP, Sentry |
 | Currency | CAD (Canadian) |
-
-## Legacy note
-
-The sibling folder `specs/marketplace/` describes an **unrelated** borrower/lender
-lending prototype that predates this work. It is not part of the Canmore Stays
-product and should be treated as legacy — do not wire it into the booking clone.

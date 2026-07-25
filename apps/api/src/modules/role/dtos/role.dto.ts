@@ -8,12 +8,12 @@ import { createDataOutput, createPaginatedOutput } from '@modules/@shared/dtos/d
 @InputType()
 export class CreateRoleInput {
   @Field()
-  @ApiProperty({ example: 'lender_operator' })
+  @ApiProperty({ example: 'host_operator' })
   @IsString()
   name: string;
 
   @Field({ nullable: true })
-  @ApiPropertyOptional({ example: 'Lender desk operator' })
+  @ApiPropertyOptional({ example: 'Host desk operator' })
   @IsString()
   @IsOptional()
   description?: string;

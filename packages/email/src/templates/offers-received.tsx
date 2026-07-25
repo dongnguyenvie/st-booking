@@ -78,6 +78,6 @@ OffersReceivedEmail.PreviewProps = {
     termMonths: 24,
     payment: 2144,
   },
-  offersUrl: 'https://app.carousel-marketplace.dev/marketplace/borrower/offers',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  offersUrl: 'https://app.canmorestays.dev/marketplace/borrower/offers',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies OffersReceivedProps;

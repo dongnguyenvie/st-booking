@@ -46,7 +46,7 @@ async function handleSubmit() {
 
     const { accessToken, user } = data.registerUser.data;
     setSession(accessToken, user);
-    await router.push(ROUTES.pos.dashboard);
+    await router.push(ROUTES.admin.dashboard);
   } catch {
     error.value = 'An error occurred. Please try again.';
   } finally {

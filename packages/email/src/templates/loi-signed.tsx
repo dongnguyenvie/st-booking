@@ -66,6 +66,6 @@ LoiSignedEmail.PreviewProps = {
   termMonths: 24,
   payment: 2144,
   signedAt: '2026-07-21T15:04:00.000Z',
-  fundingRoomUrl: 'https://app.carousel-marketplace.dev/marketplace/borrower/funding-room',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  fundingRoomUrl: 'https://app.canmorestays.dev/marketplace/borrower/funding-room',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies LoiSignedProps;

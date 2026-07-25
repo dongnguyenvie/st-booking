@@ -1,12 +1,12 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: carousel-marketplace-postgres
+    container_name: canmorestays-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: carousel-marketplace
+      POSTGRES_DB: canmorestays
     ports:
       - "5432:5432"
     volumes:
@@ -14,7 +14,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: carousel-marketplace-redis
+    container_name: canmorestays-redis
     restart: unless-stopped
     ports:
       - "6379:6379"

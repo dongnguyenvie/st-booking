@@ -31,7 +31,7 @@ model User {
   // Reusable, User-level identity verification (KYC). Surfaced in the BPE Dossier later.
   kycStatus  String?   @map("kyc_status")
   // Numeric bootstrap flags. Only Privilege.SUPER_ADMIN is meaningful now; all
-  // marketplace authority is granted through Role.
+  // booking authority is granted through Role.
   privileges Int[]     @default([]) @map("privileges")
   isActive   Boolean   @default(true)
   createdAt  DateTime  @default(now()) @map("created_at")
@@ -145,8 +145,8 @@ model ApiKeyRole {
   @@map("api_key_roles")
 }
 
-// A Role grants a fixed Permission set (RBAC). Seeded: borrower, lender_owner,
-// lender_operator, admin. lender_owner's set is a strict superset of lender_operator.
+// A Role grants a fixed Permission set (RBAC). Seeded: guest, host_owner,
+// host_operator, admin. host_owner's set is a strict superset of host_operator.
 model Role {
   id          String  @id @default(uuid(7)) @map("id") @db.Uuid
   name        String  @unique @map("name") @db.VarChar
@@ -175,12 +175,13 @@ model Role {
   @@map("roles")
 }
 
-// A single grantable action in `resource:verb` form (e.g. request:create,
-// offer:post, stip:approve). Handlers check a Permission; the Role supplies the set.
+// A single grantable action in `resource:verb` form (e.g. listing:create,
+// reservation:confirm, review:respond). Handlers check a Permission; the Role
+// supplies the set.
 model Permission {
   id          String  @id @default(uuid(7)) @map("id") @db.Uuid
-  key         String  @unique @map("key") @db.VarChar // "request:create"
-  resource    String  @map("resource") @db.VarChar // "request"
+  key         String  @unique @map("key") @db.VarChar // "listing:create"
+  resource    String  @map("resource") @db.VarChar // "listing"
   action      String  @map("action") @db.VarChar // "create"
   description String? @map("description") @db.VarChar
 
@@ -203,13 +204,13 @@ model RolePermission {
   @@map("role_permissions")
 }
 
-// Assigns a Role to a User. lenderWorkspaceId is reserved for the Lender Workspace
-// ticket (a lender role is scoped to one workspace); nullable / deferred for now.
+// Assigns a Role to a User. hostWorkspaceId is reserved for the Host Workspace
+// ticket (a host role is scoped to one workspace); nullable / deferred for now.
 model UserRole {
   userId String @map("user_id") @db.Uuid
   roleId String @map("role_id") @db.Uuid
 
-  lenderWorkspaceId String? @map("lender_workspace_id") @db.Uuid
+  hostWorkspaceId String? @map("host_workspace_id") @db.Uuid
 
   user User @relation("user_roles", fields: [userId], references: [id], onDelete: Cascade)
   role Role @relation("user_roles", fields: [roleId], references: [id], onDelete: Cascade)

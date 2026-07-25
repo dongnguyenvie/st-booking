@@ -4,7 +4,7 @@ import { ROUTES } from '~/config/routes';
 
 definePageMeta({ layout: 'admin' });
 
-const siteName = ref('Innoland POS');
+const siteName = ref('Canmore Stays');
 const supportEmail = ref('support@innoland.com');
 const emailNotifications = ref(true);
 const maintenanceMode = ref(false);
@@ -13,7 +13,7 @@ const maintenanceMode = ref(false);
 <template>
   <div>
     <h1 class="text-2xl font-bold">Settings</h1>
-    <p class="mt-1 text-gray-500">Configure POS system settings</p>
+    <p class="mt-1 text-gray-500">Configure platform settings</p>
 
     <div class="mt-6 space-y-6">
       <!-- General -->
@@ -74,7 +74,7 @@ const maintenanceMode = ref(false);
           <div class="flex items-center justify-between">
             <div>
               <p class="font-medium">Maintenance Mode</p>
-              <p class="text-sm text-gray-500">Disable public access to the POS</p>
+              <p class="text-sm text-gray-500">Disable public access to the site</p>
             </div>
             <Switch v-model:checked="maintenanceMode" />
           </div>

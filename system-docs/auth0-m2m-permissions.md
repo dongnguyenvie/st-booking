@@ -1,6 +1,6 @@
 # Auth0 M2M Permissions Reference
 
-Detailed reference for Machine-to-Machine (M2M) application scopes and permissions required by the Carousel Marketplace project.
+Detailed reference for Machine-to-Machine (M2M) application scopes and permissions required by the Canmore Stays project.
 
 ## What Is M2M?
 
@@ -14,7 +14,7 @@ In this project, the NestJS API uses M2M to call Auth0 Management API for user m
 
 | Scope | Purpose |
 |-------|---------|
-| `create:clients` | Create SPA application ("Carousel Marketplace Web") |
+| `create:clients` | Create SPA application ("Canmore Stays Web") |
 | `read:clients` | Check if SPA app already exists (idempotent) |
 | `create:resource_servers` | Create API Resource Server |
 | `read:resource_servers` | Check if API already exists (idempotent) |
@@ -44,7 +44,7 @@ delete:users
 ### During M2M App Creation
 
 1. Auth0 Dashboard → **Applications** → **Create Application**
-2. Name: `Carousel Marketplace M2M`, Type: **Machine to Machine**
+2. Name: `Canmore Stays M2M`, Type: **Machine to Machine**
 3. "Select API" dialog → choose **Auth0 Management API**
 4. Check the 6 scopes listed above
 5. Click **Authorize**

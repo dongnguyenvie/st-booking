@@ -36,14 +36,14 @@ them; nothing else here needs one.
 ## Adding a spec
 
 Create `specs/my-feature.md`. Subfolders work:
-`specs/marketplace/offers.md` → `/specs/marketplace/offers`.
+`specs/canmorestays/06-booking-pricing.md` → `/specs/canmorestays/06-booking-pricing`.
 
 ```yaml
 ---
-title: Funding room
-description: Everything after the LOI — conditions, revisions, and disbursement.
-order: 15
-depends_on: ['marketplace/letter-of-intent']
+title: Booking & pricing
+description: Quote breakdown, availability rules, and the checkout path.
+order: 6
+depends_on: ['canmorestays/05-listing-detail']
 ---
 ```
 
@@ -52,7 +52,7 @@ then the filename. `order` sorts the tree and index (lower first); unordered
 specs sort last, by title. `depends_on` builds the dependency graph — the reverse
 direction ("Used by") is derived, so each edge is declared once.
 
-`specs/marketplace/_index.md` describes the `marketplace` folder in the tree
+`specs/canmorestays/_index.md` describes the `canmorestays` folder in the tree
 rather than adding a child node to it.
 
 ## Doc / Memory
@@ -76,12 +76,12 @@ and the exact text an indexer would chunk.
 
 `dist/` is static, but this is a client-routed SPA: whatever serves it must fall
 back to `index.html` for unknown paths, or a deep link like
-`/specs/marketplace/funding-room` will 404 on refresh. `vite preview` already
+`/specs/canmorestays/06-booking-pricing` will 404 on refresh. `vite preview` already
 does this.
 
 ## Where the specs come from
 
-The specs under `specs/marketplace/` are written from the design prototype in
-`local-docs/mockup/marketplace/` — `live.html` (borrower portal), `lender.html`
-(lender desk) and `BUSINESS-LOGIC.md`. When the prototype changes, the spec is
-what gets updated first.
+The specs under `specs/canmorestays/` are reverse-engineered from
+[canmorestays.com](https://www.canmorestays.com), with captured evidence in
+`specs/canmorestays/01-overview-evidence.md`. When the observed site changes,
+the spec is what gets updated first.

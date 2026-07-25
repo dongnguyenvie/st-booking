@@ -72,7 +72,7 @@ async function handleSave() {
       <div class="space-y-4">
         <div class="space-y-2">
           <Label for="role-name">Name</Label>
-          <Input id="role-name" v-model="name" placeholder="e.g. lender_operator" />
+          <Input id="role-name" v-model="name" placeholder="e.g. host_operator" />
         </div>
         <div class="space-y-2">
           <Label for="role-description">Description</Label>

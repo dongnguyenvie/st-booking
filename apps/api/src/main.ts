@@ -64,8 +64,8 @@ async function bootstrap() {
   // Swagger (disabled in production)
   if (!configService.get<boolean>('env.isProduction')) {
     const swaggerConfig = new DocumentBuilder()
-      .setTitle('Carousel Marketplace API')
-      .setDescription('Carousel Marketplace REST API documentation')
+      .setTitle('Canmore Stays API')
+      .setDescription('Canmore Stays REST API documentation')
       .setVersion('1.0')
       .addBearerAuth()
       .build();
@@ -84,7 +84,7 @@ async function bootstrap() {
       res.send(`<!DOCTYPE html>
 <html>
   <head>
-    <title>GraphiQL — Carousel Marketplace API</title>
+    <title>GraphiQL — Canmore Stays API</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/graphiql@3/graphiql.min.css" />
     <style>body,html{margin:0;height:100%;overflow:hidden}#graphiql{height:100vh}</style>
   </head>

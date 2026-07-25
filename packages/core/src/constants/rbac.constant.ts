@@ -26,24 +26,24 @@ const define = (key: PermissionKey, description: string): PermissionDef => {
 
 /** Every permission, seeded into the `permissions` table. */
 export const PERMISSIONS: PermissionDef[] = [
-  // Borrower — request lifecycle
-  define(PermissionKey.REQUEST_CREATE, 'Create a financing request'),
-  define(PermissionKey.REQUEST_READ, 'View a request'),
-  define(PermissionKey.REQUEST_CANCEL, 'Cancel / abandon a request'),
-  define(PermissionKey.OFFER_READ, 'View offers on a request'),
-  define(PermissionKey.LOI_SIGN, 'Sign an LOI (pick an offer)'),
-  define(PermissionKey.LOI_CANCEL, 'Cancel an LOI (release exclusivity)'),
+  // Guest — reservation lifecycle
+  define(PermissionKey.RESERVATION_CREATE, 'Book a stay'),
+  define(PermissionKey.RESERVATION_READ, 'View a reservation'),
+  define(PermissionKey.RESERVATION_CANCEL, 'Cancel a reservation'),
+  define(PermissionKey.REVIEW_CREATE, 'Leave a review after a stay'),
+  define(PermissionKey.REVIEW_READ, 'View reviews'),
 
-  // Lender desk — pricing & funding
-  define(PermissionKey.REQUEST_UNLOCK, 'Pay to unlock a full request Dossier (Model A)'),
-  define(PermissionKey.OFFER_POST, 'Post an offer on a request'),
-  define(PermissionKey.OFFER_REVISE, 'Send revised terms after LOI'),
-  define(PermissionKey.STIP_REQUEST, 'Request a stipulation'),
-  define(PermissionKey.STIP_REVIEW, 'Review a submitted stipulation'),
-  define(PermissionKey.STIP_APPROVE, 'Approve or return a stipulation'),
-  define(PermissionKey.FUNDING_CONFIRM, 'Confirm funding (click "funded")'),
+  // Host desk — inventory & stay operations
+  define(PermissionKey.LISTING_READ, 'View a listing'),
+  define(PermissionKey.LISTING_CREATE, 'Create a listing'),
+  define(PermissionKey.LISTING_UPDATE, 'Edit listing details and photos'),
+  define(PermissionKey.LISTING_PUBLISH, 'Publish or unpublish a listing'),
+  define(PermissionKey.AVAILABILITY_MANAGE, 'Manage the availability calendar'),
+  define(PermissionKey.PRICING_MANAGE, 'Manage nightly rates and pricing rules'),
+  define(PermissionKey.RESERVATION_CONFIRM, 'Confirm or decline a reservation'),
+  define(PermissionKey.REVIEW_RESPOND, 'Reply publicly to a guest review'),
 
-  // Lender owner — org management
+  // Host owner — org management
   define(PermissionKey.MEMBER_MANAGE, 'Invite and manage workspace members'),
   define(PermissionKey.BILLING_READ, 'View billing / the workspace ledger'),
   define(PermissionKey.BILLING_MANAGE, 'Manage billing and payment methods'),
@@ -54,33 +54,36 @@ export const PERMISSIONS: PermissionDef[] = [
   define(PermissionKey.ROLE_READ, 'View roles and their permissions'),
   define(PermissionKey.ROLE_MANAGE, 'Create / edit roles and assignments'),
   define(PermissionKey.PERMISSION_READ, 'View the permission catalog'),
-  define(PermissionKey.LENDER_ONBOARD, 'Onboard a Lender Workspace'),
-  define(PermissionKey.WORKSPACE_VERIFY, 'Verify / approve a Lender Workspace'),
+  define(PermissionKey.HOST_ONBOARD, 'Onboard a Host workspace'),
+  define(PermissionKey.LISTING_VERIFY, 'Verify / approve a listing before it goes live'),
+  define(PermissionKey.CONTENT_MANAGE, 'Manage marketing and content pages'),
 ];
 
-const BORROWER_PERMS: PermissionKey[] = [
-  PermissionKey.REQUEST_CREATE,
-  PermissionKey.REQUEST_READ,
-  PermissionKey.REQUEST_CANCEL,
-  PermissionKey.OFFER_READ,
-  PermissionKey.LOI_SIGN,
-  PermissionKey.LOI_CANCEL,
+const GUEST_PERMS: PermissionKey[] = [
+  PermissionKey.LISTING_READ,
+  PermissionKey.RESERVATION_CREATE,
+  PermissionKey.RESERVATION_READ,
+  PermissionKey.RESERVATION_CANCEL,
+  PermissionKey.REVIEW_CREATE,
+  PermissionKey.REVIEW_READ,
 ];
 
-const LENDER_OPERATOR_PERMS: PermissionKey[] = [
-  PermissionKey.REQUEST_READ,
-  PermissionKey.REQUEST_UNLOCK,
-  PermissionKey.OFFER_POST,
-  PermissionKey.OFFER_REVISE,
-  PermissionKey.STIP_REQUEST,
-  PermissionKey.STIP_REVIEW,
-  PermissionKey.STIP_APPROVE,
-  PermissionKey.FUNDING_CONFIRM,
+const HOST_OPERATOR_PERMS: PermissionKey[] = [
+  PermissionKey.LISTING_READ,
+  PermissionKey.LISTING_CREATE,
+  PermissionKey.LISTING_UPDATE,
+  PermissionKey.LISTING_PUBLISH,
+  PermissionKey.AVAILABILITY_MANAGE,
+  PermissionKey.PRICING_MANAGE,
+  PermissionKey.RESERVATION_READ,
+  PermissionKey.RESERVATION_CONFIRM,
+  PermissionKey.REVIEW_READ,
+  PermissionKey.REVIEW_RESPOND,
 ];
 
 // Strict superset of operator (acceptance criterion): operator perms + org management.
-const LENDER_OWNER_PERMS: PermissionKey[] = [
-  ...LENDER_OPERATOR_PERMS,
+const HOST_OWNER_PERMS: PermissionKey[] = [
+  ...HOST_OPERATOR_PERMS,
   PermissionKey.MEMBER_MANAGE,
   PermissionKey.BILLING_READ,
   PermissionKey.BILLING_MANAGE,
@@ -92,24 +95,25 @@ const ADMIN_PERMS: PermissionKey[] = [
   PermissionKey.ROLE_READ,
   PermissionKey.ROLE_MANAGE,
   PermissionKey.PERMISSION_READ,
-  PermissionKey.LENDER_ONBOARD,
-  PermissionKey.WORKSPACE_VERIFY,
+  PermissionKey.HOST_ONBOARD,
+  PermissionKey.LISTING_VERIFY,
+  PermissionKey.CONTENT_MANAGE,
 ];
 
 /** Role → the set of permissions it grants. */
 export const ROLE_PERMISSIONS: Record<RoleName, PermissionKey[]> = {
-  [RoleName.BORROWER]: BORROWER_PERMS,
-  [RoleName.LENDER_OPERATOR]: LENDER_OPERATOR_PERMS,
-  [RoleName.LENDER_OWNER]: LENDER_OWNER_PERMS,
+  [RoleName.GUEST]: GUEST_PERMS,
+  [RoleName.HOST_OPERATOR]: HOST_OPERATOR_PERMS,
+  [RoleName.HOST_OWNER]: HOST_OWNER_PERMS,
   [RoleName.ADMIN]: ADMIN_PERMS,
 };
 
 export const ROLE_DESCRIPTIONS: Record<RoleName, string> = {
-  [RoleName.BORROWER]: 'Borrower — create requests, compare offers, sign an LOI',
-  [RoleName.LENDER_OPERATOR]:
-    'Lender desk — price requests, post offers, review stips, confirm funding',
-  [RoleName.LENDER_OWNER]: 'Lender owner — everything an operator can do, plus members & billing',
-  [RoleName.ADMIN]: 'Internal staff — onboard/verify lenders, ops & support',
+  [RoleName.GUEST]: 'Guest — browse listings, book a stay, review it afterwards',
+  [RoleName.HOST_OPERATOR]:
+    'Host desk — manage listings, availability, pricing, reservations and review replies',
+  [RoleName.HOST_OWNER]: 'Host owner — everything an operator can do, plus members & billing',
+  [RoleName.ADMIN]: 'Internal staff — onboard hosts, verify listings, ops & support',
 };
 
 /** All valid permission keys (for validation / catalog checks). */

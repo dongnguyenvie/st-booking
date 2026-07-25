@@ -22,15 +22,15 @@ Set `SEED_ON_START=true` in `.env` — seeds on app startup (upserts, safe to ru
 
 One account per role, matching the three the app actually has:
 
-| Email                               | Password               | Privileges              | Access policy         |
-| ----------------------------------- | ---------------------- | ----------------------- | --------------------- |
-| `admin@carousel-marketplace.dev`    | `Admin@2026!Secure`    | `SUPER_ADMIN` + `ADMIN` | Super Admin + Admin   |
-| `lender@carousel-marketplace.dev`   | `Lender@2026!Secure`   | `LENDER`                | Lender                |
-| `borrower@carousel-marketplace.dev` | `Borrower@2026!Secure` | `BORROWER`              | Borrower              |
+| Email                    | Password            | Privileges              | Role         |
+| ------------------------ | ------------------- | ----------------------- | ------------ |
+| `admin@canmorestays.dev` | `Admin@2026!Secure` | `SUPER_ADMIN` + `ADMIN` | `admin`      |
+| `host@canmorestays.dev`  | `Host@2026!Secure`  | —                       | `host_owner` |
+| `guest@canmorestays.dev` | `Guest@2026!Secure` | —                       | `guest`      |
 
-Policies are assigned by matching privilege to policy name. Super Admin carries
-`permissions: ['*']`, `scopes: ['*']`; the rest are scoped to their side
-(`lender:*`, `borrower:request`/`borrower:offer`).
+Each role grants the permission set declared in `ROLE_PERMISSIONS`
+(`packages/core`). `SUPER_ADMIN` is a break-glass privilege flag that bypasses
+permission checks entirely.
 
 Also creates the users in Auth0 if configured (skips if they exist, or if Auth0
 is unavailable — seeding does not fail on it).
@@ -49,7 +49,7 @@ Sign in via GraphQL:
 
 ```graphql
 mutation {
-  signIn(input: { email: "admin@carousel-marketplace.dev", password: "Admin@2026!Secure" }) {
+  signIn(input: { email: "admin@canmorestays.dev", password: "Admin@2026!Secure" }) {
     data {
       accessToken
       user {

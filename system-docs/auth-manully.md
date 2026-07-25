@@ -42,8 +42,8 @@ This represents `apps/api` in Auth0.
 
 1. Dashboard → **Applications** → **APIs** → **Create API**
 2. Fill in:
-   - **Name**: `Carousel Marketplace API`
-   - **Identifier (Audience)**: `https://api.carousel-marketplace.com`
+   - **Name**: `Canmore Stays API`
+   - **Identifier (Audience)**: `https://api.canmorestays.com`
      - Logical URI — does not need to resolve to a real URL
      - Used as the `audience` claim in JWT tokens
    - **Signing Algorithm**: `RS256`
@@ -73,7 +73,7 @@ This is used by `apps/api` server to call the Auth0 Management API (for creating
 
 1. Dashboard → **Applications** → **Applications** → **Create Application**
 2. Choose **Machine to Machine Applications**
-3. Name: `Carousel Marketplace API Server`
+3. Name: `Canmore Stays API Server`
 4. Click **Create**
 5. When prompted "Which API?":
    - Select **Auth0 Management API**
@@ -96,7 +96,7 @@ Add to `apps/api/.env`:
 AUTH0_DOMAIN=your-app.auth0.com
 
 # API audience (matches the Identifier in Step 2)
-AUTH0_AUDIENCE=https://api.carousel-marketplace.com
+AUTH0_AUDIENCE=https://api.canmorestays.com
 
 # M2M credentials for Management API (Step 4)
 AUTH0_M2M_CLIENT_ID=your_m2m_client_id

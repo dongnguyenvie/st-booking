@@ -108,25 +108,25 @@ function generateToken(userId: string, email: string): string | null {
  */
 const DEMO_ACCOUNTS = [
   {
-    email: 'admin@carousel-marketplace.dev',
+    email: 'admin@canmorestays.dev',
     password: 'Admin@2026!Secure',
     name: 'Admin',
     privileges: [Privilege.SUPER_ADMIN],
     roles: [RoleName.ADMIN],
   },
   {
-    email: 'lender@carousel-marketplace.dev',
-    password: 'Lender@2026!Secure',
-    name: 'Lender Desk',
+    email: 'host@canmorestays.dev',
+    password: 'Host@2026!Secure',
+    name: 'Host Desk',
     privileges: [] as number[],
-    roles: [RoleName.LENDER_OWNER],
+    roles: [RoleName.HOST_OWNER],
   },
   {
-    email: 'borrower@carousel-marketplace.dev',
-    password: 'Borrower@2026!Secure',
+    email: 'guest@canmorestays.dev',
+    password: 'Guest@2026!Secure',
     name: 'Avery Singh',
     privileges: [] as number[],
-    roles: [RoleName.BORROWER],
+    roles: [RoleName.GUEST],
   },
 ];
 
@@ -141,8 +141,8 @@ async function seedRbac() {
   }
 
   for (const name of Object.values(RoleName)) {
-    // Borrower is the self-signup role; admins can move the flag later.
-    const isDefault = name === RoleName.BORROWER;
+    // Guest is the self-signup role; admins can move the flag later.
+    const isDefault = name === RoleName.GUEST;
     const role = await prisma.role.upsert({
       where: { name },
       update: { description: ROLE_DESCRIPTIONS[name], isDefault },

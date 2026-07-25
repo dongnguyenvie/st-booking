@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
-  LayoutDashboard, Users, Package, Shield, Key,
-  BarChart3, FileBarChart, Settings, Building2,
+  LayoutDashboard, Users, Home, CalendarCheck, Star, Shield, Key,
+  BarChart3, Settings, Building2,
 } from 'lucide-vue-next';
 import { ROUTES } from '~/config/routes';
 
@@ -13,12 +13,13 @@ const route = useRoute();
 
 const mainNav = [
   { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.admin.dashboard },
+  { label: 'Listings', icon: Home, to: ROUTES.admin.listings },
+  { label: 'Reservations', icon: CalendarCheck, to: ROUTES.admin.reservations },
+  { label: 'Reviews', icon: Star, to: ROUTES.admin.reviews },
   { label: 'Users', icon: Users, to: ROUTES.admin.users },
-  { label: 'Products', icon: Package, to: ROUTES.admin.products },
   { label: 'Roles & Permissions', icon: Shield, to: ROUTES.admin.permissions },
   { label: 'API Keys', icon: Key, to: ROUTES.admin.apiKeys },
   { label: 'Analytics', icon: BarChart3, to: ROUTES.admin.analytics },
-  { label: 'Reports', icon: FileBarChart, to: ROUTES.admin.reports },
 ];
 
 const bottomNav = [
@@ -41,7 +42,7 @@ function isActive(path: string) {
         <div class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <Building2 class="size-4" />
         </div>
-        <span v-if="!collapsed" class="text-sm font-semibold">Innoland</span>
+        <span v-if="!collapsed" class="text-sm font-semibold">Canmore Stays</span>
       </NuxtLink>
     </div>
 

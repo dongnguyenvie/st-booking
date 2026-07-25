@@ -79,6 +79,6 @@ FundingCompleteEmail.PreviewProps = {
   bankAccountLast4: '4417',
   expectedArrival: '2026-07-23T00:00:00.000Z',
   firstPaymentDue: '2026-08-21T00:00:00.000Z',
-  fundingHistoryUrl: 'https://app.carousel-marketplace.dev/marketplace/borrower/fundings',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  fundingHistoryUrl: 'https://app.canmorestays.dev/marketplace/borrower/fundings',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies FundingCompleteProps;

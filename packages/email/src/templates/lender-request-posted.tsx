@@ -75,6 +75,6 @@ LenderRequestPostedEmail.PreviewProps = {
   purpose: 'Inventory for Q4',
   competingOffers: 2,
   hasStaleVerification: true,
-  dealUrl: 'https://app.carousel-marketplace.dev/marketplace/lender/deals/REQ-20847',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  dealUrl: 'https://app.canmorestays.dev/marketplace/lender/deals/REQ-20847',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies LenderRequestPostedProps;

@@ -128,7 +128,7 @@ export class AuthService {
    * admin can change it from the RBAC dashboard — deliberately NOT taken from
    * the request, because a client-supplied role is privilege escalation.
    *
-   * Falls back to `borrower` if nobody has marked a default, so signup never
+   * Falls back to `guest` if nobody has marked a default, so signup never
    * silently produces a user with no access at all.
    */
   private async resolveSignupRoleId(): Promise<string | null> {
@@ -139,15 +139,15 @@ export class AuthService {
     if (preferred) return preferred.id;
 
     const fallback = await this.prisma.role.findFirst({
-      where: { name: RoleName.BORROWER, deletedAt: null },
+      where: { name: RoleName.GUEST, deletedAt: null },
       select: { id: true },
     });
     if (fallback) {
-      this.logger.warn(`No role marked is_default — falling back to "${RoleName.BORROWER}"`);
+      this.logger.warn(`No role marked is_default — falling back to "${RoleName.GUEST}"`);
       return fallback.id;
     }
 
-    this.logger.error('No default role and no borrower role — user created with no role');
+    this.logger.error('No default role and no guest role — user created with no role');
     return null;
   }
 

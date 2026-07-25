@@ -45,6 +45,6 @@ export default function VerificationStaleEmail(props: VerificationStaleProps) {
 VerificationStaleEmail.PreviewProps = {
   borrowerName: 'Dana',
   staleChecks: ['Business bank connection', 'Business registration'],
-  profileUrl: 'https://app.carousel-marketplace.dev/marketplace/borrower/profile',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  profileUrl: 'https://app.canmorestays.dev/marketplace/borrower/profile',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies VerificationStaleProps;

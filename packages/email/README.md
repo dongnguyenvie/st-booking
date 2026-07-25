@@ -1,6 +1,6 @@
 # @repo/email
 
-Transactional email templates for Carousel Marketplace, built with
+Transactional email templates for Canmore Stays, built with
 [React Email](https://react.email/docs/introduction).
 
 ## What this package does and does not do
@@ -42,7 +42,7 @@ suite renders against — a template whose preview data drifts from its prop typ
 fails in CI rather than in someone's inbox.
 
 The preview UI's **Linter** tab flags dead links and mail-client
-incompatibilities. `FETCH ATTEMPT` warnings against `app.carousel-marketplace.dev`
+incompatibilities. `FETCH ATTEMPT` warnings against `app.canmorestays.dev`
 are expected: that host is deliberately fictional so preview data never touches
 a real server.
 

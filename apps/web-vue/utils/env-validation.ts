@@ -11,7 +11,7 @@ const envSchema = z.object({
   auth0Domain: z.string().min(1, 'NUXT_PUBLIC_AUTH0_DOMAIN is required'),
   auth0ClientId: z.string().min(1, 'NUXT_PUBLIC_AUTH0_CLIENT_ID is required'),
   auth0Audience: z.string().min(1, 'NUXT_PUBLIC_AUTH0_AUDIENCE is required'),
-  appName: z.string().default('Innoland'),
+  appName: z.string().default('Canmore Stays'),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;

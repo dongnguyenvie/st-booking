@@ -21,12 +21,3 @@ product overview + evidence legend, information architecture, design system,
 search & discovery, listing detail, booking & pricing, reviews & content pages,
 data model, system architecture, a repository gap analysis, and testable
 acceptance criteria.
-
-## Legacy — Carousel Marketplace
-
-The [`marketplace`](/specs/marketplace) specs describe an **unrelated** lending
-venue (borrowers post financing requests; lenders compete to fund them) that
-predates the booking work. It is retained for reference only and is **not** part
-of the Canmore Stays product — do not wire it into the booking clone. See the
-[gap analysis](/specs/canmorestays/10-repo-gap-analysis) for how the legacy
-`marketplace/**` code and specs are classified.

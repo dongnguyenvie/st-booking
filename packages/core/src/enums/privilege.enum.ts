@@ -3,7 +3,7 @@
  *
  * This is now a bootstrap-only escape hatch: the ONLY meaningful value is
  * SUPER_ADMIN, a break-glass superuser that bypasses RBAC. All ordinary
- * marketplace authority (borrower / lender / admin) is granted through Role
+ * booking authority (guest / host / admin) is granted through Role
  * (see the roles / user_roles tables), NOT here.
  *
  * The numeric value is load-bearing — it is persisted in User.privileges and

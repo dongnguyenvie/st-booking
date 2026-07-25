@@ -22,7 +22,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       clientId,
       authorizationParams: {
         audience: config.public.auth0Audience as string,
-        redirect_uri: `${window.location.origin}/pos/callback`,
+        redirect_uri: `${window.location.origin}/auth/callback`,
       },
     });
 

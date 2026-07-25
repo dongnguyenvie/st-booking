@@ -33,7 +33,7 @@ describe('2FA E2E Functional Tests', () => {
     }
     if (!process.env.DATABASE_URL) {
       process.env.DATABASE_URL =
-        process.env.DATABASE_URL || 'postgresql://test:test@localhost:5432/carousel_marketplace_test';
+        process.env.DATABASE_URL || 'postgresql://test:test@localhost:5432/canmorestays_test';
     }
 
     const moduleFixture: TestingModule = await Test.createTestingModule({

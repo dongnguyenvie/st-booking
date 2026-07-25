@@ -53,6 +53,6 @@ StipsRequestedEmail.PreviewProps = {
   lenderName: 'Meridian Capital',
   requested: ['Year-to-date profit & loss statement', 'Certificate of insurance', 'Personal guarantee'],
   carriedOverCount: 4,
-  fundingRoomUrl: 'https://app.carousel-marketplace.dev/marketplace/borrower/funding-room',
-  manageNotificationsUrl: 'https://app.carousel-marketplace.dev/settings/notifications',
+  fundingRoomUrl: 'https://app.canmorestays.dev/marketplace/borrower/funding-room',
+  manageNotificationsUrl: 'https://app.canmorestays.dev/settings/notifications',
 } satisfies StipsRequestedProps;
