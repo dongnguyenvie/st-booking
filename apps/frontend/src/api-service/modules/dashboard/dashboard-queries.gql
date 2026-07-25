@@ -1,9 +1,0 @@
-query GetDashboardStats {
-  getDashboardStats {
-    data {
-      totalUsers
-      activeUsers
-      totalRoles
-    }
-  }
-}
