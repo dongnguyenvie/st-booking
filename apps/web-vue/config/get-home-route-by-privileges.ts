@@ -24,11 +24,11 @@ export function getHomeRouteByPrivileges(privileges: number[]): string {
   for (const group of PRIVILEGE_GROUPS) {
     if (privileges.some((p) => group.privileges.includes(p))) return group.route;
   }
-  return ROUTES.admin.dashboard;
+  return ROUTES.public.home;
 }
 
 /** Return the landing route for a single active privilege */
 export function getRouteByPrivilege(privilege: number): string {
   const group = PRIVILEGE_GROUPS.find((g) => g.privileges.includes(privilege));
-  return group?.route ?? ROUTES.admin.dashboard;
+  return group?.route ?? ROUTES.public.home;
 }

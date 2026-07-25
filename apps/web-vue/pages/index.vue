@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ROUTES } from '~/config/routes';
-
-// Root redirect to login (middleware handles auth → dashboard)
-definePageMeta({ layout: false });
-navigateTo(ROUTES.auth.login);
+// The public guest surface — reachable without a session.
+definePageMeta({ layout: 'public' });
 </script>
 
 <template>
-  <div />
+  <div>
+    <HomeHeroSearch />
+    <HomeTopProperties />
+  </div>
 </template>

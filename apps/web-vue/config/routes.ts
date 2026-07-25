@@ -3,6 +3,16 @@
  * Prevents magic strings across the app.
  */
 export const ROUTES = {
+  /** Guest-facing surface — no authentication anywhere under here. */
+  public: {
+    home: '/',
+    allListings: '/all-listings',
+    search: '/search',
+    about: '/about-us',
+    contact: '/contact-us',
+    privacy: '/privacy-policy',
+    terms: '/terms-and-conditions',
+  },
   admin: {
     dashboard: '/admin/dashboard',
     users: '/admin/users',
@@ -23,8 +33,23 @@ export const ROUTES = {
   },
 } as const;
 
-/** Routes accessible without authentication */
-export const PUBLIC_ROUTES = [
+/** Header nav on the guest surface. */
+export const PUBLIC_NAV = [
+  { label: 'Home', to: ROUTES.public.home },
+  { label: 'About Us', to: ROUTES.public.about },
+  { label: 'All listings', to: ROUTES.public.allListings },
+  { label: 'Contact Us', to: ROUTES.public.contact },
+] as const;
+
+/** Footer links on the guest surface. */
+export const PUBLIC_FOOTER_LINKS = [
+  { label: 'Privacy Policy', to: ROUTES.public.privacy },
+  { label: 'Terms & Conditions', to: ROUTES.public.terms },
+  { label: 'Contact Us', to: ROUTES.public.contact },
+] as const;
+
+/** Auth routes reachable while signed out. The guest surface is public by default. */
+export const PUBLIC_AUTH_ROUTES = [
   ROUTES.auth.login,
   ROUTES.auth.verify,
   ROUTES.auth.callback,

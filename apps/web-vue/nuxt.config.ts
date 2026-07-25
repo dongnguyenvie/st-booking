@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     { path: '~/modules/reservations/components', prefix: 'Reservations' },
     { path: '~/modules/reviews/components', prefix: 'Reviews' },
     { path: '~/modules/analytics/components', prefix: 'Analytics' },
+    { path: '~/modules/home/components', prefix: 'Home' },
   ],
 
   imports: {
