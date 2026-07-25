@@ -13,11 +13,11 @@ const MOBILE = { width: 375, height: 812 };
 
 /** Best-effort dismissal of the Osano cookie consent banner (prefer decline). */
 async function dismissConsent(page) {
-  const labels = ['Deny', 'Decline', 'Reject All', 'Reject', 'Manage', 'Accept'];
+  const labels = ['Reject Non-Essential', 'Reject', 'Deny', 'Decline', 'Reject All', 'Accept'];
   for (const label of labels) {
     try {
       const btn = page.getByRole('button', { name: new RegExp(label, 'i') });
-      if (await btn.first().isVisible({ timeout: 800 })) {
+      if (await btn.first().isVisible({ timeout: 700 })) {
         await btn.first().click({ timeout: 1500 });
         await page.waitForTimeout(600);
         return;
@@ -25,6 +25,13 @@ async function dismissConsent(page) {
     } catch {
       /* try next label */
     }
+  }
+  // Fallback: click the banner close (X) if present.
+  try {
+    const x = page.getByRole('button', { name: /close|dismiss/i }).first();
+    if (await x.isVisible({ timeout: 500 })) await x.click({ timeout: 1000 });
+  } catch {
+    /* no-op */
   }
 }
 
@@ -47,6 +54,9 @@ const shots = [
   { name: 'search-results-map.png', path: '/search?numberOfGuests=1', vp: DESKTOP, fullPage: false },
   { name: 'listing-detail-gallery.png', path: '/listings/355029', vp: DESKTOP, fullPage: true },
   { name: 'contact-desktop.png', path: '/contact-us', vp: DESKTOP, fullPage: true },
+  { name: 'about-us-desktop.png', path: '/about-us', vp: DESKTOP, fullPage: true },
+  { name: 'all-listings-mobile.png', path: '/all-listings', vp: MOBILE, fullPage: true },
+  { name: 'listing-detail-mobile.png', path: '/listings/355029', vp: MOBILE, fullPage: true },
 ];
 
 const browser = await chromium.launch({ headless: true });
@@ -81,6 +91,42 @@ try {
       await shot(page, 'home-search-location-open.png', false);
     } catch (e) {
       console.error('FAILED home-search-location-open.png', e?.message);
+    } finally {
+      await context.close();
+    }
+  }
+
+  // home: open the check-in date picker calendar
+  {
+    const context = await browser.newContext({ viewport: DESKTOP });
+    const page = await context.newPage();
+    try {
+      await goto(page, '/');
+      await dismissConsent(page);
+      const checkIn = page.getByText(/Check-?In/i).first();
+      await checkIn.click({ timeout: 3000 }).catch(() => {});
+      await page.waitForTimeout(1000);
+      await shot(page, 'home-datepicker-open.png', false);
+    } catch (e) {
+      console.error('FAILED home-datepicker-open.png', e?.message);
+    } finally {
+      await context.close();
+    }
+  }
+
+  // home: open the guests stepper
+  {
+    const context = await browser.newContext({ viewport: DESKTOP });
+    const page = await context.newPage();
+    try {
+      await goto(page, '/');
+      await dismissConsent(page);
+      const guests = page.getByText(/Guests/i).first();
+      await guests.click({ timeout: 3000 }).catch(() => {});
+      await page.waitForTimeout(1000);
+      await shot(page, 'home-guests-open.png', false);
+    } catch (e) {
+      console.error('FAILED home-guests-open.png', e?.message);
     } finally {
       await context.close();
     }
